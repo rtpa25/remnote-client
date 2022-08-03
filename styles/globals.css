@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #ced4da;
+  pointer-events: none;
+  height: 0;
+}
+
+ul {
+  list-style: disc;
+  padding-left: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+li {
+  margin: 1rem 0 1rem 0;
+}
+
+h1 {
+  font-size: xx-large;
+  margin: 3rem 0 3rem 0;
+  font-weight: bold;
+}
+
+p {
+  font-size: large;
+}
+
+.ProseMirror {
+  height: 100%;
+  padding: 4rem;
+  padding-right: 1rem;
+}
+
+.ProseMirror-focused {
+  outline: none;
+}

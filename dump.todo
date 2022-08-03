@@ -1,0 +1,15 @@
+✔ make the editor controlled so we have access to the value of the editor content whenever needed @done (7/31/2022, 4:58:27 PM)
+✔ figure out a way to extract text out of the bullet points separetly then we can think of making api calls @done (8/3/2022, 6:34:32 PM)
+  - no need to separete the rems in the backend store it just as plain html inside a page there is no rem entity in the backend 
+  - now magically the no. of api calls reduces to 1 and out data is still preserved we can do all the magic in the frontend 
+
+✔ Get the logout button in the right place inside the sidebar always @done (8/3/2022, 6:35:56 PM)
+☐ hook up page creation flow 
+  ✔ Hook up the page creation function in the sidebar @done (8/3/2022, 7:01:39 PM)
+  ✔ Hook up the use effect snippet and fetch all the documents @done (8/3/2022, 7:01:42 PM)
+  ✔ Take the state of the docs global and do optimistic updates with the pages @done (8/3/2022, 7:44:24 PM)
+  ✔ initially when the user lands there should be no pages opened up <later can be the last opened page which can be stored in the users browser> @done (8/3/2022, 7:44:27 PM)
+  ✔ then he creates the page and that page contents show up in the page side <inital heading maybe later the body can also be setup initially while creating the page> @done (8/3/2022, 7:44:29 PM)
+  ✔ when the user selects a specific page that page contnet should show up in the editor @done (8/3/2022, 7:45:14 PM)
+  ☐ Fix the redux state unconsistency bug 
+  
