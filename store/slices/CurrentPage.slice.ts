@@ -23,9 +23,19 @@ export const CurrentPageDataSlice = createSlice({
     ) => {
       state.page = action.payload.page;
     },
+    updateCurrentPageData: (
+      state: CurrentPageDataState,
+      action: PayloadAction<{ name: string; body: string }>
+    ) => {
+      if (state.page) {
+        state.page.name = action.payload.name;
+        state.page.body = action.payload.body;
+      }
+    },
   },
 });
 
-export const { setCurrentPageData } = CurrentPageDataSlice.actions;
+export const { setCurrentPageData, updateCurrentPageData } =
+  CurrentPageDataSlice.actions;
 
 export default CurrentPageDataSlice.reducer;

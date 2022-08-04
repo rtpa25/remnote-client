@@ -4,12 +4,30 @@
   - now magically the no. of api calls reduces to 1 and out data is still preserved we can do all the magic in the frontend 
 
 ✔ Get the logout button in the right place inside the sidebar always @done (8/3/2022, 6:35:56 PM)
-☐ hook up page creation flow 
+✔ hook up page creation flow @done (8/4/2022, 11:19:05 AM)
   ✔ Hook up the page creation function in the sidebar @done (8/3/2022, 7:01:39 PM)
   ✔ Hook up the use effect snippet and fetch all the documents @done (8/3/2022, 7:01:42 PM)
   ✔ Take the state of the docs global and do optimistic updates with the pages @done (8/3/2022, 7:44:24 PM)
   ✔ initially when the user lands there should be no pages opened up <later can be the last opened page which can be stored in the users browser> @done (8/3/2022, 7:44:27 PM)
   ✔ then he creates the page and that page contents show up in the page side <inital heading maybe later the body can also be setup initially while creating the page> @done (8/3/2022, 7:44:29 PM)
   ✔ when the user selects a specific page that page contnet should show up in the editor @done (8/3/2022, 7:45:14 PM)
-  ☐ Fix the redux state unconsistency bug 
+  ✔ Fix the page not rendering with the latest content issue @done (8/4/2022, 11:18:57 AM)
+
+☐ Hook up the page update flow 
+  ✔ get access to the text of the editor in a timely fashion inside the cleanup function @done (8/4/2022, 5:25:42 PM)
+  ✔ make the right api call when the user is not typing @done (8/4/2022, 5:25:45 PM)
+  ✔ update the global state before making the api call inorder to update the side bar docs list @done (8/4/2022, 5:25:53 PM)
+  ☐ solve the focus problem on api calls 
+  ✔ store the id of the document last used inside local storage and try to access the last used doc on reload @done (8/4/2022, 5:47:25 PM)
+  ✔ Add the smiley replacer @done (8/4/2022, 7:06:45 PM)
+  ✘ Add a bubble menu to highlight, italicize and strike through text @cancelled (8/4/2022, 7:12:39 PM)
+
+☐ Rem-flow UI
+  ☐ Get a way to make the marker of the li to cursor pointer
+  ☐ figure out a way to access those markers directly and add event handlers on them to make it the current selected page with the text in the current bullet point as the heading and the all the html subordinate to it as the body of the page 
+  ☐ make sure text editing is taken care in those new pages and pressing back comes back to the back page <this is tough because we are not really creating new page and not changing the browser router>
+  ☐ make the hiding feature that is kinda achivable 
+  
+
+  
   

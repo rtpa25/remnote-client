@@ -26,9 +26,17 @@ export const PagesDataSlice = createSlice({
     addPage(state: PagesDataState, action: PayloadAction<{ page: Page }>) {
       state.pages.push(action.payload.page);
     },
+    updatePage(state: PagesDataState, action: PayloadAction<{ page: Page }>) {
+      const index = state.pages.findIndex(
+        (page) => page._id === action.payload.page._id
+      );
+      if (index !== -1) {
+        state.pages[index] = action.payload.page;
+      }
+    },
   },
 });
 
-export const { setPages, addPage } = PagesDataSlice.actions;
+export const { setPages, addPage, updatePage } = PagesDataSlice.actions;
 
 export default PagesDataSlice.reducer;

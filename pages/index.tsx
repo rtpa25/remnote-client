@@ -5,9 +5,6 @@ import {
   getUserId,
 } from 'supertokens-auth-react/recipe/session';
 import Document from '@tiptap/extension-document';
-import Placeholder from '@tiptap/extension-placeholder';
-import { Editor, EditorContent, useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
 
@@ -16,14 +13,9 @@ import axiosInstance from '../utils/axiosInterceptor';
 import { User } from '../interfaces/user.interface';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { setCurrentUserData } from '../store/slices/CurrentUser.slice';
-import { initialPageBody } from '../utils/initialPageBody';
-
-const CustomDocument = Document.extend({
-  content: 'heading block*',
-});
+import { setCurrentPageData } from '../store/slices/CurrentPage.slice';
 
 const Home: NextPage = () => {
-  // const [text, setText] = useState('');
   //@local-states
   const [isSideBarVisInMobile, setIsSideBarVisInMobile] = useState(false);
 
@@ -42,6 +34,13 @@ const Home: NextPage = () => {
       }
     }
     getUserInfo();
+  }, []);
+
+  useEffect(() => {
+    const lastCurrentPage = localStorage.getItem('currentPage');
+    if (lastCurrentPage) {
+      dispatch(setCurrentPageData({ page: JSON.parse(lastCurrentPage) }));
+    }
   }, []);
 
   const toggleDrawer = (open: boolean) => {

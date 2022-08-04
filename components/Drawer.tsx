@@ -10,7 +10,6 @@ import { signOut } from 'supertokens-auth-react/recipe/thirdpartyemailpassword';
 import { initialPageBody } from '../utils/initialPageBody';
 import { Page } from '../interfaces/page.interface';
 import { Loader } from './zExporter';
-import { User } from '../interfaces/user.interface';
 import { addPage, setPages } from '../store/slices/Pages.slice';
 import { nanoid } from 'nanoid';
 import { setCurrentPageData } from '../store/slices/CurrentPage.slice';
@@ -26,29 +25,29 @@ const Drawer: FC<DrawerProps> = ({ isOpen }) => {
   const [isPagesLoading, setIsPagesLoading] = useState(false);
 
   //@global states
-  const { name: nameOfUser, _id: userId } = useAppSelector(
-    (state) => state.currentUser.user as User
-  );
+  const currentUser = useAppSelector((state) => state.currentUser.user)!;
   const pages = useAppSelector((state) => state.pages.pages);
   const currentSelectedPage = useAppSelector((state) => state.currentPage.page);
   const dispatch = useAppDispatch();
 
   const createPageHandler = async () => {
+    if (!currentUser) return;
     setIsLoading(true);
     const newPage: Page = {
       _id: nanoid(),
-      name: 'Pages always look good with a heading',
+      name: 'New Page',
       body: initialPageBody,
       createdAt: Date.now().toString(),
       updatedAt: Date.now().toString(),
-      user: userId,
+      user: currentUser._id,
     };
     try {
       dispatch(addPage({ page: newPage }));
+      localStorage.setItem('currentPage', JSON.stringify(newPage));
       dispatch(setCurrentPageData({ page: newPage }));
       await axiosInstance.post<Page>('/pages', {
-        name: 'Pages always look good with a heading',
-        userId,
+        name: 'New Page',
+        userId: currentUser._id,
         body: initialPageBody,
       });
     } catch (error: any) {
@@ -69,15 +68,17 @@ const Drawer: FC<DrawerProps> = ({ isOpen }) => {
   };
 
   const pageClickHandler = (page: Page) => {
+    localStorage.setItem('currentPage', JSON.stringify(page));
     dispatch(setCurrentPageData({ page: page }));
   };
 
   useEffect(() => {
     const fetchPages = async () => {
+      if (!currentUser) return;
       setIsPagesLoading(true);
       try {
         const { data } = await axiosInstance.get<Page[]>(
-          `/pages/user?userId=${userId}`
+          `/pages/user?userId=${currentUser._id}`
         );
         dispatch(setPages({ pages: data }));
       } catch (error) {
@@ -86,7 +87,9 @@ const Drawer: FC<DrawerProps> = ({ isOpen }) => {
       setIsPagesLoading(false);
     };
     fetchPages();
-  }, []);
+  }, [currentUser]);
+
+  if (!currentUser) return <div></div>;
 
   return (
     <div
@@ -99,8 +102,8 @@ const Drawer: FC<DrawerProps> = ({ isOpen }) => {
       </div>
       <div className='flex mt-24 items-center mx-4'>
         <img
-          src={`https://ui-avatars.com/api/?background=00002&color=fff&name=${nameOfUser}&font-size=0.3`}
-          alt={nameOfUser}
+          src={`https://ui-avatars.com/api/?background=00002&color=fff&name=${currentUser.name}&font-size=0.3`}
+          alt={currentUser.name}
           className='rounded-full scale-150 mx-4'
         />
         <span className='font-semibold mx-3 text-lg'>Ronit Panda</span>
