@@ -73,6 +73,7 @@ const TextEditor: FC<TextEditorProps> = ({
     }
   }, [currentSelectedPage]);
 
+  //@responsible for the debouncing logic to upda the state of text editor and making the patch calls
   useEffect(() => {
     const timer = setInterval(async () => {
       if (!editor?.isFocused) return;
