@@ -43,13 +43,15 @@ const Drawer: FC<DrawerProps> = ({ isOpen }) => {
     };
     try {
       dispatch(addPage({ page: newPage }));
-      localStorage.setItem('currentPage', JSON.stringify(newPage));
-      dispatch(setCurrentPageData({ page: newPage }));
-      await axiosInstance.post<Page>('/pages', {
+
+      const { data } = await axiosInstance.post<Page>('/pages', {
         name: 'New Page',
         userId: currentUser._id,
         body: initialPageBody,
       });
+
+      localStorage.setItem('currentPage', JSON.stringify(data));
+      dispatch(setCurrentPageData({ page: data }));
     } catch (error: any) {
       console.error('error while creating page', error);
     }

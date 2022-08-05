@@ -10,6 +10,8 @@ import { useAppDispatch } from '../hooks/redux';
 import { updateCurrentPageData } from '../store/slices/CurrentPage.slice';
 import { updatePage } from '../store/slices/Pages.slice';
 import { SmilieReplacer } from '../plugins/SmileyReplacer';
+import TaskItem from '@tiptap/extension-task-item';
+import TaskList from '@tiptap/extension-task-list';
 
 interface TextEditorProps {
   toggleDrawer: (open: boolean) => void;
@@ -29,6 +31,10 @@ const TextEditor: FC<TextEditorProps> = ({
       CustomDocument,
       StarterKit.configure({
         document: false,
+      }),
+      TaskList,
+      TaskItem.configure({
+        nested: true,
       }),
       Placeholder.configure({
         placeholder: ({ node }) => {

@@ -22,11 +22,9 @@
   ✔ Add the smiley replacer @done (8/4/2022, 7:06:45 PM)
   ✘ Add a bubble menu to highlight, italicize and strike through text @cancelled (8/4/2022, 7:12:39 PM)
 
-☐ Rem-flow UI
-  ☐ Get a way to make the marker of the li to cursor pointer
-  ☐ figure out a way to access those markers directly and add event handlers on them to make it the current selected page with the text in the current bullet point as the heading and the all the html subordinate to it as the body of the page 
-  ☐ make sure text editing is taken care in those new pages and pressing back comes back to the back page <this is tough because we are not really creating new page and not changing the browser router>
-  ☐ make the hiding feature that is kinda achivable 
+☐ Extra features
+  ☐ Add tasklist and change the default text to make the users aware of all the features
+  ☐ Let's see if I might add images <not sure>
   
 
   

@@ -11,17 +11,13 @@
 }
 
 ul {
-  list-style: disc;
+  list-style: none;
   padding-left: 0.5rem;
   margin-left: 0.5rem;
 }
 
 li {
   margin: 1rem 0 1rem 0;
-}
-
-li ::marker {
-  cursor: pointer;
 }
 
 h1 {
