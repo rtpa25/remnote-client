@@ -50,7 +50,7 @@ const Drawer: FC<DrawerProps> = ({ isOpen }) => {
         body: initialPageBody,
       });
 
-      localStorage.setItem('currentPage', JSON.stringify(data));
+      localStorage.setItem('currentPageId', data._id);
       dispatch(setCurrentPageData({ page: data }));
     } catch (error: any) {
       console.error('error while creating page', error);
@@ -70,7 +70,7 @@ const Drawer: FC<DrawerProps> = ({ isOpen }) => {
   };
 
   const pageClickHandler = (page: Page) => {
-    localStorage.setItem('currentPage', JSON.stringify(page));
+    localStorage.setItem('currentPageId', page._id);
     dispatch(setCurrentPageData({ page: page }));
   };
 

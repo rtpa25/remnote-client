@@ -17,15 +17,15 @@
   ✔ get access to the text of the editor in a timely fashion inside the cleanup function @done (8/4/2022, 5:25:42 PM)
   ✔ make the right api call when the user is not typing @done (8/4/2022, 5:25:45 PM)
   ✔ update the global state before making the api call inorder to update the side bar docs list @done (8/4/2022, 5:25:53 PM)
-  ☐ solve the focus problem on api calls 
+  ☐ solve the focus problem on api calls <kinda working>
   ✔ store the id of the document last used inside local storage and try to access the last used doc on reload @done (8/4/2022, 5:47:25 PM)
   ✔ Add the smiley replacer @done (8/4/2022, 7:06:45 PM)
   ✘ Add a bubble menu to highlight, italicize and strike through text @cancelled (8/4/2022, 7:12:39 PM)
 
 ☐ Extra features
-  ☐ Add tasklist and change the default text to make the users aware of all the features
-  ☐ Let's see if I might add images <not sure>
+  ✔ Add tasklist and change the default text to make the users aware of all the features @done (8/5/2022, 7:15:27 PM)
+  ✘ Let's see if I might add images <not sure> @cancelled (8/5/2022, 7:16:47 PM)
   
-
+  
   
   

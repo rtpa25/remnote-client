@@ -4,8 +4,7 @@ import {
   doesSessionExist,
   getUserId,
 } from 'supertokens-auth-react/recipe/session';
-import Document from '@tiptap/extension-document';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
 
 import { Drawer, TextEditor } from '../components/zExporter';
@@ -14,6 +13,7 @@ import { User } from '../interfaces/user.interface';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { setCurrentUserData } from '../store/slices/CurrentUser.slice';
 import { setCurrentPageData } from '../store/slices/CurrentPage.slice';
+import { Page } from '../interfaces/page.interface';
 
 const Home: NextPage = () => {
   //@local-states
@@ -37,9 +37,22 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    const lastCurrentPage = localStorage.getItem('currentPage');
-    if (lastCurrentPage) {
-      dispatch(setCurrentPageData({ page: JSON.parse(lastCurrentPage) }));
+    const lastCurrentPageId = localStorage.getItem('currentPageId');
+    if (lastCurrentPageId) {
+      const fetchDoc = async () => {
+        try {
+          const { data } = await axiosInstance.get<Page>(
+            `/pages?pageId=${lastCurrentPageId as string}`
+          );
+          dispatch(setCurrentPageData({ page: data }));
+        } catch (error) {
+          console.error(
+            'error while fetching locally stored last used document',
+            error
+          );
+        }
+      };
+      fetchDoc();
     }
   }, []);
 

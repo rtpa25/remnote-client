@@ -11,7 +11,7 @@
 }
 
 ul {
-  list-style: none;
+  list-style: disc;
   padding-left: 0.5rem;
   margin-left: 0.5rem;
 }
@@ -38,4 +38,28 @@ p {
 
 .ProseMirror-focused {
   outline: none;
+}
+
+
+ul[data-type="taskList"] {
+  list-style: none;
+  padding: 0;
+
+  p {
+    margin: 0;
+  }
+
+  li {
+    display: flex;
+
+    > label {
+      flex: 0 0 auto;
+      margin-right: 0.5rem;
+      user-select: none;
+    }
+
+    > div {
+      flex: 1 1 auto;
+    }
+  }
 }

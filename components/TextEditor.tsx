@@ -36,6 +36,7 @@ const TextEditor: FC<TextEditorProps> = ({
       TaskItem.configure({
         nested: true,
       }),
+
       Placeholder.configure({
         placeholder: ({ node }) => {
           if (node.type.name === 'heading') {
@@ -89,8 +90,10 @@ const TextEditor: FC<TextEditorProps> = ({
             page: { ...currentSelectedPage, name: newHeading, body: text },
           })
         );
-
-        // localStorage.setItem('currentSection', )
+        localStorage.setItem(
+          'currentPage',
+          JSON.stringify(currentSelectedPage)
+        );
         await axiosInstance.patch('/pages', {
           pageId: currentSelectedPage._id,
           name: newHeading,
