@@ -73,37 +73,45 @@ const TextEditor: FC<TextEditorProps> = ({
     }
   }, [currentSelectedPage]);
 
-  //@responsible for the debouncing logic to upda the state of text editor and making the patch calls
+  //@responsible for the debouncing logic to update the state of text editor and making the patch calls
   useEffect(() => {
-    const timer = setInterval(async () => {
-      if (!editor?.isFocused) return;
+    let timer: NodeJS.Timer;
+    const listener = () => {
+      if (timer) clearInterval(timer);
 
-      const text = editor?.getHTML();
-      const jsonText = editor?.getJSON();
+      timer = setInterval(async () => {
+        if (!editor?.isFocused) return;
 
-      if (!jsonText?.content) return;
-      const newHeading = jsonText.content[0].content![0].text;
+        const text = editor?.getHTML();
+        const jsonText = editor?.getJSON();
 
-      if (newHeading && text && editor?.isFocused) {
-        dispatch(updateCurrentPageData({ name: newHeading, body: text }));
-        dispatch(
-          updatePage({
-            page: { ...currentSelectedPage, name: newHeading, body: text },
-          })
-        );
-        localStorage.setItem(
-          'currentPage',
-          JSON.stringify(currentSelectedPage)
-        );
-        await axiosInstance.patch('/pages', {
-          pageId: currentSelectedPage._id,
-          name: newHeading,
-          body: text,
-        });
-      }
-    }, 9000);
+        if (!jsonText?.content) return;
+        const newHeading = jsonText.content[0].content![0].text;
 
-    return () => clearInterval(timer);
+        if (newHeading && text && editor?.isFocused) {
+          dispatch(updateCurrentPageData({ name: newHeading, body: text }));
+          dispatch(
+            updatePage({
+              page: { ...currentSelectedPage, name: newHeading, body: text },
+            })
+          );
+          localStorage.setItem(
+            'currentPage',
+            JSON.stringify(currentSelectedPage)
+          );
+          await axiosInstance.patch('/pages', {
+            pageId: currentSelectedPage._id,
+            name: newHeading,
+            body: text,
+          });
+        }
+      }, 7000);
+    };
+    window.addEventListener('keydown', listener);
+
+    return () => {
+      window.removeEventListener('keydown', listener);
+    };
   }, [editor, currentSelectedPage]);
 
   return (

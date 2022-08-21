@@ -1,16 +1,12 @@
 import { FC, useEffect, useState } from 'react';
 import axiosInstance from '../utils/axiosInterceptor';
-import {
-  AiOutlineLoading3Quarters,
-  AiOutlinePlus,
-  AiOutlinePoweroff,
-} from 'react-icons/ai';
+import { AiOutlinePlus, AiOutlinePoweroff, AiFillDelete } from 'react-icons/ai';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { signOut } from 'supertokens-auth-react/recipe/thirdpartyemailpassword';
 import { initialPageBody } from '../utils/initialPageBody';
 import { Page } from '../interfaces/page.interface';
 import { Loader } from './zExporter';
-import { addPage, setPages } from '../store/slices/Pages.slice';
+import { addPage, deletePage, setPages } from '../store/slices/Pages.slice';
 import { nanoid } from 'nanoid';
 import { setCurrentPageData } from '../store/slices/CurrentPage.slice';
 
@@ -74,6 +70,17 @@ const Drawer: FC<DrawerProps> = ({ isOpen }) => {
     dispatch(setCurrentPageData({ page: page }));
   };
 
+  const deletePageHandler = async (page: Page) => {
+    try {
+      localStorage.removeItem('currentPageId');
+      dispatch(setCurrentPageData({ page: undefined }));
+      dispatch(deletePage({ page: page }));
+      await axiosInstance.delete(`/pages?pageId=${page._id}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const fetchPages = async () => {
       if (!currentUser) return;
@@ -100,7 +107,7 @@ const Drawer: FC<DrawerProps> = ({ isOpen }) => {
       <div
         className='absolute top-0 right-0 md:right-3/4 m-2 text-xl cursor-pointer'
         onClick={logoutHandler}>
-        {logoutLoading ? <AiOutlineLoading3Quarters /> : <AiOutlinePoweroff />}
+        {logoutLoading ? <Loader /> : <AiOutlinePoweroff />}
       </div>
       <div className='flex mt-24 items-center mx-4'>
         <img
@@ -108,7 +115,7 @@ const Drawer: FC<DrawerProps> = ({ isOpen }) => {
           alt={currentUser.name}
           className='rounded-full scale-150 mx-4'
         />
-        <span className='font-semibold mx-3 text-lg'>Ronit Panda</span>
+        <span className='font-semibold mx-3 text-lg'>{currentUser.name}</span>
       </div>
       <div className='overflow-y-auto'>
         <hr className='my-4' />
@@ -117,20 +124,31 @@ const Drawer: FC<DrawerProps> = ({ isOpen }) => {
           <Loader />
         ) : (
           <div className='mx-3'>
-            {pages.map((page) => {
-              return (
-                <div
-                  className={`my-3 text-gray-600 hover:bg-gray-200 cursor-pointer p-2 rounded-md bg-gray-100 ${
-                    currentSelectedPage?._id === page._id ? 'bg-gray-300' : ''
-                  }`}
-                  key={page._id}
-                  onClick={() => {
-                    pageClickHandler(page);
-                  }}>
-                  {page.name}
-                </div>
-              );
-            })}
+            {pages.length > 0 ? (
+              pages.map((page) => {
+                return (
+                  <div
+                    className={`flex justify-between items-center my-3 text-gray-600 hover:bg-gray-200  p-2 rounded-md bg-gray-100 ${
+                      currentSelectedPage?._id === page._id ? 'bg-gray-300' : ''
+                    }`}
+                    key={page._id}
+                    onClick={() => {
+                      pageClickHandler(page);
+                    }}>
+                    {page.name}
+                    <span
+                      className='cursor-pointer text-red-500'
+                      onClick={() => {
+                        deletePageHandler(page);
+                      }}>
+                      <AiFillDelete />
+                    </span>
+                  </div>
+                );
+              })
+            ) : (
+              <div className='my-5 mx-2'>Hit the create button</div>
+            )}
           </div>
         )}
       </div>
@@ -139,7 +157,7 @@ const Drawer: FC<DrawerProps> = ({ isOpen }) => {
           className='bg-gray-800 text-white w-11/12 m-2 p-2 rounded-md hover:bg-black duration-100 flex justify-center items-end font-semibold'
           onClick={createPageHandler}>
           {isLoading ? (
-            <AiOutlineLoading3Quarters />
+            <Loader />
           ) : (
             <div className='flex items-center'>
               <AiOutlinePlus className='mr-2' /> Create

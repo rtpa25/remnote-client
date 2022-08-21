@@ -34,9 +34,18 @@ export const PagesDataSlice = createSlice({
         state.pages[index] = action.payload.page;
       }
     },
+    deletePage(state: PagesDataState, action: PayloadAction<{ page: Page }>) {
+      const index = state.pages.findIndex(
+        (page) => page._id === action.payload.page._id
+      );
+      if (index !== -1) {
+        state.pages.splice(index, 1);
+      }
+    },
   },
 });
 
-export const { setPages, addPage, updatePage } = PagesDataSlice.actions;
+export const { setPages, addPage, updatePage, deletePage } =
+  PagesDataSlice.actions;
 
 export default PagesDataSlice.reducer;
